@@ -1,3 +1,5 @@
+import { environment } from './../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Task } from './task';
 
@@ -5,46 +7,31 @@ import { Task } from './task';
   providedIn: 'root'
 })
 export class TaskService {
-  tasks: Task[] = [];
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getAll() {
-    const list = window.localStorage.getItem('lista-tarefas');
-    if(list) {
-      this.tasks = JSON.parse(list);
-    }
-    return this.tasks;
+    return this.http.get<Task[]>(`${environment.api}/tasks`);
   }
 
-  getById(id: number) {
-   const task = this.tasks.find((value) => value.id == id);
-   return task;
+  getById(id: string) {
+    return this.http.get<Task>(`${environment.api}/tasks/${id}`);
   }
 
   save(task: Task) {
-    if(task.id) {
-      const taskToUpdate = this.getById(task.id);
-      if(taskToUpdate) {
-        taskToUpdate.description = task.description;
-        taskToUpdate.completed = task.completed;
-      }
-    } else {
-      let lastId = 0;
-      if(this.tasks.length > 0) {
-        lastId = this.tasks[this.tasks.length - 1].id;
-      }
 
-      task.id = lastId + 1;
-      task.completed = false;
-      this.tasks.push(task);
+    const taskBody = {
+      description: task.description,
+      completed: task.completed
     }
-    window.localStorage.setItem('lista-tarefas', JSON.stringify(this.tasks));
+
+    if (task._id) {
+      return this.http.put<Task>(`${environment.api}/tasks/${task._id}`, taskBody);
+    } else {
+      return this.http.post<Task>(`${environment.api}/tasks`, taskBody);
+    }
   }
 
-  delete(id: number) {
-    const taskIndex = this.tasks.findIndex( (value) => value.id== id);
-    this.tasks.splice(taskIndex, 1);
-    window.localStorage.setItem('lista-tarefas', JSON.stringify(this.tasks));
+  delete(id: string) {
+    return this.http.delete(`${environment.api}/tasks/${id}`);
   }
 }

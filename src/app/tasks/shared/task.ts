@@ -1,10 +1,10 @@
 export class Task {
-  id: number;
+  _id: string;
   description: string;
   completed: boolean;
 
   constructor() {
-    this.id = 0;
+    this._id = '';
     this.description = "";
     this.completed = false;
   }
