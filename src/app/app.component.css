@@ -1,0 +1,16 @@
+header {
+  height: 70px;
+}
+
+header nav a{
+  margin-left: 30px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff; /* Cor do texto do rodapé, ajuste conforme necessário */
+  margin-bottom: 70px;
+  text-align: center; /* Alinhar o texto ao centro no rodapé */
+}
