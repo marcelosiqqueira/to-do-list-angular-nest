@@ -5,7 +5,7 @@
   [ngClass]="task.completed ? 'task-completed' : ''">
 </div>
 <div>
-  <button type="button" [routerLink]="['/edit', task.id]" class="btn btn-primary mr-1 change-btn">
+  <button type="button" [routerLink]="['/edit', task._id]" class="btn btn-primary mr-1 change-btn">
     Alterar
   </button>
 </div>

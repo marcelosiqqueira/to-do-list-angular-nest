@@ -13,6 +13,15 @@ export class TaskListComponent implements OnInit{
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.tasks = this.taskService.getAll();
+    this.taskService.getAll().subscribe(tasks => {
+      this.tasks = tasks;
+    });
+  }
+
+  onTaskDeleted(task: Task) {
+    if(task) {
+      const index = this.tasks.findIndex( (taskItem:Task) => taskItem._id == task._id);
+      this.tasks.splice(index, 1);
+    }
   }
 }
